@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
 import Const from './Const';
 import Util from './util';
 
@@ -8,6 +7,7 @@ class TableColumn extends Component {
 
   constructor(props) {
     super(props);
+    this.ref = React.createRef();
   }
   /* eslint no-unused-vars: [0, { "args": "after-used" }] */
   shouldComponentUpdate(nextProps, nextState) {
@@ -50,7 +50,7 @@ class TableColumn extends Component {
   }
 
   componentDidMount() {
-    const dom = ReactDOM.findDOMNode(this);
+    const dom = this.ref.current;
     if (this.props.isFocus) {
       dom.focus();
     } else {
@@ -59,7 +59,7 @@ class TableColumn extends Component {
   }
 
   componentDidUpdate() {
-    const dom = ReactDOM.findDOMNode(this);
+    const dom = this.ref.current;
     if (this.props.isFocus) {
       dom.focus();
     } else {
@@ -156,6 +156,7 @@ class TableColumn extends Component {
     if (!withoutTabIndex) attr.tabIndex = tabIndex;
     return (
       <td { ...attr } style={ tdStyle }
+          ref={this.ref}
           title={ columnTitle }
           className={ className }
           { ...opts } { ...attrs }>
